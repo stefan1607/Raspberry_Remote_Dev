@@ -8,7 +8,7 @@
 int main() {
     time_t now;
     now = time(0);
-    printf("Viel Spass nit C!!! \n");
+    printf("Viel Spass mit C!!! \n");
     return 0;
 
 }
