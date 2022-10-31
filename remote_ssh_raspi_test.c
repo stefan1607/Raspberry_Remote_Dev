@@ -6,9 +6,10 @@
 #include <time.h>
 
 int main() {
-    time_t now;
-    now = time(0);
-    printf("Viel Spass mit C!!! \n");
+    time_t seconds;
+    seconds = time(0);
+    printf("Have a lot of fun with C\n");
+    printf("Seconds since January 1, 1970 = %ld\n", seconds);
     return 0;
 
 }
