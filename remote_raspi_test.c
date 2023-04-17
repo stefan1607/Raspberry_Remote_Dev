@@ -5,10 +5,6 @@
 #include <stdio.h>
 #include <time.h>
 
-/*
-Dies ist ein Test
-
-*/
 int main() {
     time_t seconds;
     seconds = time(0);
