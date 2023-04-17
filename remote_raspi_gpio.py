@@ -5,14 +5,20 @@ print ("Dies ist ein GPIO Test mit LEDs  siehe Raspberry PI - Kpmpendium seite 4
 from gpiozero import LED
 from time import sleep
 
-# LED in connected to GPIO 18 port
-led = LED(18)
+# LEDs are connected to GPIO 17 and GPIO 18 port
+led1 = LED(4)
+led2 = LED(17)
 
 while True:
-    led.on()
-    sleep(0.5)
-    led.off()
-    sleep(0.5)
+    led2.on()
+    sleep(0.1)
+    led2.off()
+    sleep(0.1)
+   
+    led1.on()
+    sleep(0.1)
+    led1.off()
+    sleep(0.1)
 
 
 #led.blink(0.5, 0.5, background=True)
