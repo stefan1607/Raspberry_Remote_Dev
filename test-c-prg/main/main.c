@@ -27,11 +27,11 @@ int main() {
     printf("Seconds since January 1, 1970 = %ld\n", twoseconds);
 
     printf("Some calculations\n");
-    printf("Add: %ld", add2integers(2,3));
+    printf("Add: %d", add2integers(2,3));
     printf("\n");
-    printf("Sub: %ld", sub2integers(3,2));
+    printf("Sub: %d", sub2integers(3,2));
     printf("\n");
-    printf("Mul: %ld", mul2integers(3,2));
+    printf("Mul: %d", mul2integers(3,2));
     printf("\n");
 
     return 0;
