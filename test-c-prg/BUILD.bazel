@@ -1,0 +1,4 @@
+cc_binary(
+    name = "remote_raspi_test",
+    srcs = ["remote_raspi_test.c"],
+)
