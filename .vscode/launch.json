@@ -8,12 +8,22 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\bazel-bin\\main",
+            "program": "${workspaceFolder}\\bazel-bin\\main\\main",
             "args": [],
             "stopAtEntry": true,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
-        },
+            "miDebuggerPath": "/usr/bin/gdb",
+            "preLaunchTask": "bazel_debug_build",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
 }
