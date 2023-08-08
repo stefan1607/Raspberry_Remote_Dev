@@ -7,13 +7,13 @@
 */
 
 
-#ifndef _TEST_LIB_1_H
-#define _TEST_LIB_1_H
+#ifndef _TEST_LIB_2_H
+#define _TEST_LIB_2_H
 
 #include <stdio.h>
 
 /* Forward declare the primary workhorse function */
 int sub2integers (int valueA, int valueB);
 
-#endif /* _TEST_LIB_1_H */
+#endif /* _TEST_LIB_2_H */
 
