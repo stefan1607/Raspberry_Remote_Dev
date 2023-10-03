@@ -4,9 +4,9 @@
    *      Title: RTC test program
    */
 
-/* #include "main/main_2.h" */
-#include "lib/test_lib_1.h"
-#include "lib/test_lib_2.h"
+#include "main_2.h"
+#include "../lib/test_lib_1.h"
+#include "../lib/test_lib_2.h"
 #include <stdio.h>
 #include <time.h>
 #include <unistd.h>
@@ -66,7 +66,7 @@ int main(void) {
     printf("Reset the digital GPIO21 to LOW\n");
     digitalWrite(led, LOW);
 
-    for( int i = 0; i<10; i++)
+    for( int i = 0; i<100; i++)
     {
         digitalWrite(led, HIGH);
         delay(100);
