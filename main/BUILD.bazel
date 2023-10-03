@@ -1,4 +1,17 @@
 load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
+##load("//bazel:copts.bzl", "compiler_options")
+##load("//bazel:linkopts.bzl", "linker_options")
+
+
+
+cc_import(
+    name = "mylib",
+    hdrs = ["mylib.h"],
+    static_library = "libmylib.a",
+    # If alwaylink is turned on,
+    # libmylib.a will be forcely linked into any binary that depends on it.
+    # alwayslink = 1,
+)
 
 
 cc_library(
@@ -11,6 +24,9 @@ cc_library(
 cc_binary(
     name = "main",
     srcs = ["main.c"],
+    copts = ["-Wall"],
+    linkopts = ["-lwiringPi"],
+ #   includes = 
     deps = [
         ":main_2",
         "//lib:test_lib",
