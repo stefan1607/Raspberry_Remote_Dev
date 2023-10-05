@@ -20,11 +20,18 @@
 /*  The column wPI is the one with the correct number                         */
 #define led 21
 
+#define led_r 0
+#define led_g 2
+#define led_b 3
+
+
 
 int main(void) {
 
     time_t seconds;
     time_t twoseconds;
+
+    int Red, Green, Blue;
 
 
 /*  Some simple experiments with own libraries and the standard time library  */
@@ -62,6 +69,10 @@ int main(void) {
 
     wiringPiSetup();
     pinMode(led, OUTPUT);
+    pinMode(led_r, OUTPUT);
+    pinMode(led_g, OUTPUT);
+    pinMode(led_b, OUTPUT);
+    
 
     printf("Reset the digital GPIO21 to LOW\n");
     digitalWrite(led, LOW);
@@ -74,8 +85,24 @@ int main(void) {
         delay(100);
     }
 
-    printf("End of the LED Test\n");
     digitalWrite(led, LOW);
+    printf("End of the LED Test\n");
+    printf("\n");
+
+    printf("Start RGB LED test\n");
+
+    while(1) {
+        Red = rand() %2;                // Between 0,1
+        Green = rand() %2;              // Between 0,1
+        Blue = rand() %2;               // Between 0,1
+
+        digitalWrite(led_r, Red);
+        digitalWrite(led_g, Green);
+        digitalWrite(led_b, Blue);
+        delay(200);
+    }
+     
+    printf("Start RGB LED test\n");
 
     return 0;
 
