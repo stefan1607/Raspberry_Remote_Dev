@@ -29,8 +29,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev",
-      "program": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build/Debug/outDebug",
+      "cwd": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/main",
+      "program": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/main/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

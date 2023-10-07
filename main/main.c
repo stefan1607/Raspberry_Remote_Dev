@@ -12,99 +12,104 @@
 #include <unistd.h>
 
 #include "/usr/local/include/wiringPi.h"
+#include "/usr/local/include/lcd.h"
 
 
 /*  This define is used for control the GPIO on my RaspberryPi 32bit.         */
 /*  Numbering of the LEDs you could find out via the command line tool GPIO   */
 /*  >gpio readall                                                             */
 /*  The column wPI is the one with the correct number                         */
-#define led 21
 
-#define led_r 0
-#define led_g 2
-#define led_b 3
-
-
-
-int main(void) {
-
-    time_t seconds;
-    time_t twoseconds;
-
-    int Red, Green, Blue;
+/*  Define data interface for humidity sensor DHT11 data pin */
+#define DHT_PIN 21 
+#define D4 22
+#define D5 23
+#define D6 24
+#define D7 25
+#define RS 2
+#define E 3
 
 
-/*  Some simple experiments with own libraries and the standard time library  */
-    seconds = time(0);
-    sleep(2);
-    twoseconds = time(0);
-
-    printf("First I made some simple stuff with the standard time library to get experience\n");
-    printf("with self build library functions and bazel to build the executable.\n");
-    printf("Have a lot of fun with C\n");
-    printf("\n");
-    printf("Seconds since January 1, 1970 = %ld\n", seconds);
-    printf("Seconds since January 1, 1970 = %ld\n", twoseconds);
-    printf("\n");
-    printf("Some calculations\n");
-    printf("Add: %d", add2integers(2,3));
-    printf("\n");
-    printf("Sub: %d", sub2integers(3,2));
-    printf("\n");
-    printf("Mul: %d", mul2integers(3,2));
-    printf("\n");
-    printf("\n");
-    
-
-/*  Now it gets more interesting stuff. Control the GPIOs on a RaspberryPi    */
-/*  with 32bit operating system. I use the WiringPi lib which is not further  */
-/*  supported by Gordon Henderson www.wiringpi.com, but a group of people is  */
-/*  taking care on GitHub to maintain the library for RaspberryPI.            */ 
-/*  I use the 2.70, is a clone of a GitHub respository and compiled and       */
-/*  linked on my RaspberryPi.                                                 */
-/*  See README.md for further information                                     */
-
-/*  We start with switch on and off a LED. */
-    printf("LED Test on a RaspberryPi with a 32bit operating system\n");
-
-    wiringPiSetup();
-    pinMode(led, OUTPUT);
-    pinMode(led_r, OUTPUT);
-    pinMode(led_g, OUTPUT);
-    pinMode(led_b, OUTPUT);
-    
-
-    printf("Reset the digital GPIO21 to LOW\n");
-    digitalWrite(led, LOW);
-
-    for( int i = 0; i<100; i++)
+int WaitEdge(int mode)
+{
+    int counter = 0;
+    while(digitalRead(DHT_PIN) == mode)
     {
-        digitalWrite(led, HIGH);
-        delay(100);
-        digitalWrite(led, LOW);
-        delay(100);
+        counter++;
+        delayMicroseconds(1);
+        if(counter == 255) return 1;
+    }
+    return 0;        
+}
+
+//
+// This function reads the temperature and humidity from DHT11
+// and returns the readings to the calling program
+//
+void Read_DHT11(int *T, int *H)
+{
+    char res, i, state, counter,indx = 0;
+    int data[5];
+
+    for(i = 0; i < 5; i++)data[i] = 0;
+    pinMode(DHT_PIN, OUTPUT);
+    digitalWrite(DHT_PIN, LOW);
+    delay(18);
+    digitalWrite(DHT_PIN, HIGH);
+    delayMicroseconds(40);
+    pinMode(DHT_PIN, INPUT);
+
+    res = WaitEdge(0);
+    res = res +WaitEdge(1);
+
+    i = 0;
+    while(i < 80 && res == 0)
+    {
+        counter = 0;
+        if(WaitEdge(0) == 1)break;
+        while(digitalRead(DHT_PIN) == HIGH)
+        {
+            counter++;
+            delayMicroseconds(1);
+            if(counter == 255)break;
+        }
+
+        data[indx/8] <<= 1;
+        if(counter > 28)data[indx/8] |= 1;
+          indx++;
+          i++;
     }
 
-    digitalWrite(led, LOW);
-    printf("End of the LED Test\n");
-    printf("\n");
-
-    printf("Start RGB LED test\n");
-
-    while(1) {
-        Red = rand() %2;                // Between 0,1
-        Green = rand() %2;              // Between 0,1
-        Blue = rand() %2;               // Between 0,1
-
-        digitalWrite(led_r, Red);
-        digitalWrite(led_g, Green);
-        digitalWrite(led_b, Blue);
-        delay(200);
+    // Check the Checksum //
+    if((indx >= 40) && (data[4] ==
+        ((data[0]+data[1]+data[2]+data[3]) & 0xFF)))
+    {
+        *T = data[2];   // T = data[2].data[3]
+        *H = data[0];   // H = data[0].data[1]
     }
-     
-    printf("Start RGB LED test\n");
+}
 
-    return 0;
+//
+// Start of MAIN program
+//
+int main(void)
+{
+    int Temp, Hum, lcd;
+
+    wiringPiSetupGpio();
+    delay(1000);
+    lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0);
+
+    while(1) 
+    {
+        Read_DHT11(&Temp, &Hum);
+        lcdClear(lcd);
+        lcdPosition(lcd, 0, 0);    // row 0, col 0
+        lcdPrintf(lcd, "T = %d C", Temp);
+        lcdPosition(lcd, 0, 1);     //row 1, col 0
+        lcdPrintf(lcd, "H = %d %%", Hum);
+        delay(5000);                // 5s delay
+    }
 
 }
 
