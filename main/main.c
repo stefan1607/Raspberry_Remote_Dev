@@ -21,13 +21,13 @@
 /*  The column wPI is the one with the correct number                         */
 
 /*  Define data interface for humidity sensor DHT11 data pin */
-#define DHT_PIN 21 
-#define D4 22
-#define D5 23
-#define D6 24
-#define D7 25
-#define RS 2
-#define E 3
+#define DHT_PIN 9 
+#define D4 2
+#define D5 3
+#define D6 17
+#define D7 27
+#define RS 22
+#define E 10
 
 
 int WaitEdge(int mode)
