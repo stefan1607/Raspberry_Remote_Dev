@@ -8,6 +8,7 @@
 #include "../lib/test_lib_1.h"
 #include "../lib/test_lib_2.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -96,6 +97,7 @@ int main(void)
 {
     int Temp, Hum, lcd;
 
+    srand(time(NULL));
     wiringPiSetupGpio();
     delay(1000);
     lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0);
@@ -103,7 +105,15 @@ int main(void)
     while(1) 
     {
         Read_DHT11(&Temp, &Hum);
+        Temp = (rand() % 50) -10;
+        Hum = rand() % 100;
         lcdClear(lcd);
+        lcdPosition(lcd, 0, 0);    // row 0, col 0
+        lcdPrintf(lcd, "Hallo Henry, ", 0);
+        lcdPosition(lcd, 0, 1);    // row 1, col 0
+        lcdPrintf(lcd, "ab ins Bett!", 1);
+        delay(5000);                // 5s delay
+    
         lcdPosition(lcd, 0, 0);    // row 0, col 0
         lcdPrintf(lcd, "T = %d C", Temp);
         lcdPosition(lcd, 0, 1);     //row 1, col 0
