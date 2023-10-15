@@ -15,9 +15,9 @@ cc_import(
 
 
 cc_library(
-    name = "main_2",
-    srcs = ["main_2.c"],
-    hdrs = ["main_2.h"],
+    name = "bmp180",
+    srcs = ["bmp180.c"],
+    hdrs = ["bmp180.h"],
 )
 
 
@@ -28,7 +28,7 @@ cc_binary(
     linkopts = ["-lwiringPi -lwiringPiDev"],
  #   includes = 
     deps = [
-        ":main_2",
+        ":bmp180",
         "//lib:test_lib",
     ],
 )
