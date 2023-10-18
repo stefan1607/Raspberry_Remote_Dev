@@ -23,13 +23,13 @@
  ***********************************************************************
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include <stdint.h>
 
-extern int bmp180Setup (const int pinBase) ;
-extern float bmp180ReadTempPress (int fd) ;
+#define	DEBUG
+#define	I2C_ADDRESS	0x77                          // address if I2C device BMP180
+#define	BMP180_OSS 0                              // initialization of BMP180
 
-#ifdef __cplusplus
-}
-#endif
+
+extern int32_t bmp180Setup (const int pinBase) ;
+extern int32_t bmp180ReadTempPress (int fd, double * fTemp, double * fPress) ;
+

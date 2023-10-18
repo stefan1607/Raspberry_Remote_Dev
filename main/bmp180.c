@@ -8,7 +8,7 @@
  *		http://wmrx00.sourceforge.net/Arduino/BMP085-Calcs.pdf
  *	was very useful when building this code.
  *
- ***********************************************************************
+ *******************************************************************************
  * This file is part of wiringPi:
  *	https://github.com/WiringPi/WiringPi/
  *
@@ -25,23 +25,22 @@
  *    You should have received a copy of the GNU Lesser General Public
  *    License along with wiringPi.
  *    If not, see <http://www.gnu.org/licenses/>.
- ***********************************************************************
+ *******************************************************************************
  */
 
+// some standard libraries
 #include <unistd.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
 
+// header file to use WiringPi libray
 #include "wiringPi.h"
 #include "wiringPiI2C.h"
 
+// header file for this C file
 #include "bmp180.h"
 
-#define	DEBUG
-
-#define	I2C_ADDRESS	0x77
-#define	BMP180_OSS 0
 
 
 // Static calibration data
@@ -64,7 +63,7 @@ static int altitude ;
 /*
  * read16:
  *	Quick hack to read the 16-bit data with the correct endian
- *********************************************************************************
+ *******************************************************************************
  */
 uint16_t read16 (int fd, int reg)
 {
@@ -75,11 +74,10 @@ uint16_t read16 (int fd, int reg)
 /*
  * bmp180ReadTempPress:
  *	Does the hard work of reading the sensor
- *********************************************************************************
+ *******************************************************************************
  */
-float bmp180ReadTempPress (int fd)
+int32_t bmp180ReadTempPress (int32_t fd, double * fTemp, double * fPress)
 {
-  double fTemp, fPress ;
   double tu, a ;
   double pu, s, x, y, z ;
 
@@ -100,12 +98,11 @@ float bmp180ReadTempPress (int fd)
   tu = (data [0] * 256.0) + data [1] ;
 
   a = c5 * (tu - c6) ;
-  fTemp = a + (mc / (a + md)) ;
- // cTemp = (int)rint (((100.0 * fTemp) + 0.5) / 10.0) ;
-
+  * fTemp = a + (mc / (a + md)) ;
+ 
 
 #ifdef	DEBUG
-  printf ("fTemp: %f, cTemp: %6d\n", fTemp, cTemp) ;
+  printf ("fTemp: %f\n", * fTemp) ;
 #endif
 
 
@@ -122,19 +119,19 @@ float bmp180ReadTempPress (int fd)
 
 // And calculate...
   pu = ((double)data [0] * 256.0) + (double)data [1] + ((double)data [2] / 256.0) ;
-  s = fTemp - 25.0 ;
+  s = * fTemp - 25.0 ;
   x = (x2 * pow (s, 2.0)) + (x1 * s) + x0 ;
   y = (yy2 * pow (s, 2.0)) + (yy1 * s) + yy0 ;
   z = (pu - x) / y ;
-  fPress = (p2 * pow (z, 2.0)) + (p1 * z) + p0 ;
-  cPress = (int)rint (((100.0 * fPress) + 0.5) / 10.0) ;
+  * fPress = (p2 * pow (z, 2.0)) + (p1 * z) + p0 ;
+  // cPress = (int)rint (((100.0 * fPress) + 0.5) / 10.0) ;
 
 
 #ifdef	DEBUG
-  printf ("fPress: %f\n", fPress) ;
+  printf ("fPress: %f\n", * fPress) ;
 #endif
 
-  return fTemp;
+  return TRUE;
 }
 
 
@@ -142,12 +139,12 @@ float bmp180ReadTempPress (int fd)
  * myAnalogWrite:
  *	Write to a fake register to represent the height above sea level
  *	so that the peudo millibar register can read the pressure in mB
- *********************************************************************************
+ *******************************************************************************
  */
 
-static void myAnalogWrite (struct wiringPiNodeStruct *node, int pin, int value)
+static void myAnalogWrite (struct wiringPiNodeStruct *node, int32_t pin, int32_t value)
 {
-  int chan = pin - node->pinBase;
+  int32_t chan = pin - node->pinBase;
 
   if (chan == 0)
     altitude = value ;
@@ -155,20 +152,21 @@ static void myAnalogWrite (struct wiringPiNodeStruct *node, int pin, int value)
 
 /*
  * myAnalogRead:
- *********************************************************************************
+ *******************************************************************************
  */
 
-static int myAnalogRead (struct wiringPiNodeStruct *node, int pin)
+static int myAnalogRead (struct wiringPiNodeStruct *node, int32_t pin)
 {
-  int chan = pin - node->pinBase ;
+  int32_t chan = pin - node->pinBase ;
+  double fTemp, fPress ; 
 
-  bmp180ReadTempPress (node->fd) ;
+  bmp180ReadTempPress (node->fd, & fTemp, & fPress) ;
 
-  /**/ if (chan == 0)	// Read Temperature
+  if (chan == 0)	                                // Read Temperature
     return cTemp ;
-  else if (chan == 1)	// Pressure
+  else if (chan == 1)	                            // Pressure
     return cPress ;
-  else if (chan == 2)	// Pressure in mB
+  else if (chan == 2)	                            // Pressure in mB
     return cPress / pow (1 - ((double)altitude / 44330.0), 5.255) ;
   else
     return -9999 ;
@@ -181,17 +179,17 @@ static int myAnalogRead (struct wiringPiNodeStruct *node, int pin)
  *	has 4 pins, (4 analog inputs and 1 analog output which we'll shadow
  *	input 0) so all we need to know here is the I2C address and the
  *	user-defined pin base.
- *********************************************************************************
+ *******************************************************************************
  */
 
-int bmp180Setup (const int pinBase)
+int32_t bmp180Setup (const int pinBase)
 {
   double c3, c4, b1;
-  int fd ;
+  int32_t fd ;
   struct wiringPiNodeStruct *node ;
 
   if ((fd = wiringPiI2CSetup (I2C_ADDRESS)) < 0)
-    return FALSE ;
+    return fd ;
 
   node = wiringPiNewNode (pinBase, 4) ;
 
@@ -232,5 +230,5 @@ int bmp180Setup (const int pinBase)
   p1 = 1.0 - 7357.0 * pow (2.0, -20.0) ;
   p2 = 3038.0 * 100.0 * pow (2.0,  -36.0) ;
 
-  return TRUE ;
+  return fd ;
 }

@@ -1,21 +1,22 @@
 /*
-    Author: Stefan Soyka
-    Date: 15/10/2023
-    Title: I2C test program
-
-    Description:
-    My first Raspberry PI program to get some experience with the I2C communication bus.
-    As a first example I took the temperatur / humidity sensor BMP180 from Bosch.
-    Several documentation was necessary to get all stuff together to realize the small
-    application. This included not only the software and Raspberry, but also also the hardware
-    setup with breadboards, lab power supply as an oscilloscop with I2C decoder.
-    Additional feature is a LCD display to show temperature as humidity
+*   Author: Stefan Soyka
+*   Date: 15/10/2023
+*   Title: I2C test program
+*
+*   Description:
+*   My first Raspberry PI program to get some experience with the I2C communication bus.
+*   As a first example I took the temperatur / humidity sensor BMP180 from Bosch.
+*   Several documentation was necessary to get all stuff together to realize the small
+*   application. This included not only the software and Raspberry, but also also the hardware
+*   setup with breadboards, lab power supply as an oscilloscop with I2C decoder.
+*   Additional feature is a LCD display to show temperature as humidity
 */
 
 
 //  C-Standard libraries for Raspberry PI 4
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <time.h>
 #include <math.h>
 #include <unistd.h>
@@ -53,23 +54,21 @@
 #define RS 22
 #define E 10
 
-//  I2C address for the BMP180 
-#define	I2C_ADDRESS	0x77
-
 
 //
 // Start of MAIN program
 //
-int main(void)
+int main( void )
 {
-    int lcd, bmp180 ;
-    int fd ;                                // integer to handle the BMP devices
-    float fCelsiusTemp, fAirPressure ;      // var to store temperature and airpressure
+    int32_t lcd, fd_bmp180 ;
+    int32_t return_code ;
+
+    double fCelsiusTemp, fAirPressure ;            // var to store temperature and airpressure
 
     // setup the GPIO control WiringPi lib
-    wiringPiSetupGpio() ;
+    return_code = wiringPiSetupGpio() ;
     delay(1000) ;
-    bmp180 = bmp180Setup (I2C_ADDRESS) ;
+    fd_bmp180 = bmp180Setup (I2C_ADDRESS) ;
     
     // initialise the LCD
     lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0) ;
@@ -79,17 +78,17 @@ int main(void)
  
     while(1)
     {
-        fCelsiusTemp = bmp180ReadTempPress (4);     // ACHTUNG: Hier ist fd mit dem Wert 4 angenommen
+        return_code = bmp180ReadTempPress (fd_bmp180, & fCelsiusTemp, &fAirPressure);   // ACHTUNG: Hier ist fd mit dem Wert 4 angenommen
 
         lcdClear(lcd);
-        lcdPosition(lcd, 0, 0) ;            // row 0, col 0
+        lcdPosition(lcd, 0, 0) ;                  // row 0, col 0
         lcdPrintf(lcd, "T = %.2f C", fCelsiusTemp) ;
-        lcdPosition(lcd, 0, 1) ;            //row 1, col 0
-        lcdPrintf(lcd, "H = %.2f Pa", 99.99) ;
-        delay(1000) ;                       // 1s delay
+        lcdPosition(lcd, 0, 1) ;                  //row 1, col 0
+        lcdPrintf(lcd, "H = %.2f Pa", fAirPressure) ;
+        delay(1000) ;                             // 1s delay
     }
 
-    return 0 ;
+    return return_code ;
 
 }
 
