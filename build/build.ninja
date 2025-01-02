@@ -11,7 +11,7 @@
 # =============================================================================
 
 # =============================================================================
-# Project: RASPBERRY_REMOTE_DEV
+# Project: demo
 # Configurations: Debug
 # =============================================================================
 
@@ -56,6 +56,13 @@ build CMakeFiles/demo.dir/src/main.c.o: C_COMPILER__demo_Debug /home/pi/sts_iot_
   OBJECT_DIR = CMakeFiles/demo.dir
   OBJECT_FILE_DIR = CMakeFiles/demo.dir/src
 
+build CMakeFiles/demo.dir/src/bmp180.c.o: C_COMPILER__demo_Debug /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/bmp180.c || cmake_object_order_depends_target_demo
+  DEP_FILE = CMakeFiles/demo.dir/src/bmp180.c.o.d
+  FLAGS = -g
+  INCLUDES = -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc
+  OBJECT_DIR = CMakeFiles/demo.dir
+  OBJECT_FILE_DIR = CMakeFiles/demo.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target demo
@@ -64,8 +71,9 @@ build CMakeFiles/demo.dir/src/main.c.o: C_COMPILER__demo_Debug /home/pi/sts_iot_
 #############################################
 # Link the executable /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo
 
-build /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo: C_EXECUTABLE_LINKER__demo_Debug CMakeFiles/demo.dir/src/main.c.o
+build /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo: C_EXECUTABLE_LINKER__demo_Debug CMakeFiles/demo.dir/src/main.c.o CMakeFiles/demo.dir/src/bmp180.c.o | /usr/local/lib/libwiringPi.so
   FLAGS = -g
+  LINK_LIBRARIES = -Wl,-rpath,/usr/local/lib  /usr/local/lib/libwiringPi.so
   OBJECT_DIR = CMakeFiles/demo.dir
   POST_BUILD = :
   PRE_LINK = :

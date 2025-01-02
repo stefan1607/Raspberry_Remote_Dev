@@ -34,11 +34,11 @@
 
 //  Header file the BMP180 C-File in this directory. It is a modifed copy from the WiringPi orginal
 //  source. Therefore it is not used as a library
-//#include "bmp180.h"
+#include "../inc/bmp180.h"
 
 //  The following libraries are only used to get familiar with the library concept of BAZEL
-//#include "../lib/test_lib_1.h"
-//#include "../lib/test_lib_2.h"
+#include "../inc/test_lib_1.h"
+#include "../inc/test_lib_2.h"
 
 
 //  The following defines a used to control the GPIO of the Raspberry PI
@@ -61,7 +61,7 @@
 int main( void )
 {
     printf("BMP180 Test Program ...\n") ;
-    /*
+
     int32_t lcd, fd_bmp180 ;
     int32_t return_code ;
 
@@ -91,7 +91,5 @@ int main( void )
     }
 
     return return_code ;
-*/
-    return 0;
 }
 

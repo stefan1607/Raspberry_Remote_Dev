@@ -3,5 +3,10 @@
   "directory": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build",
   "command": "/usr/bin/arm-linux-gnueabihf-gcc -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc -g -o CMakeFiles/demo.dir/src/main.c.o -c /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/main.c",
   "file": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/main.c"
+},
+{
+  "directory": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build",
+  "command": "/usr/bin/arm-linux-gnueabihf-gcc -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc -g -o CMakeFiles/demo.dir/src/bmp180.c.o -c /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/bmp180.c",
+  "file": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/bmp180.c"
 }
 ]

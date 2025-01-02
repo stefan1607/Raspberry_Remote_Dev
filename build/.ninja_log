@@ -1,4 +1,4 @@
 # ninja log v5
-2	345	1735826138251077043	CMakeFiles/demo.dir/src/bmp180.c.o	432ba354ee676d74
-1	128	1735826349411397545	CMakeFiles/demo.dir/src/main.c.o	c1247ae3575eed00
+1	147	1735830266934759830	CMakeFiles/demo.dir/src/bmp180.c.o	432ba354ee676d74
+2	132	1735829500476834761	CMakeFiles/demo.dir/src/main.c.o	c1247ae3575eed00
 128	263	1735826349539389659	/home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo	a200e59b8d91d370
