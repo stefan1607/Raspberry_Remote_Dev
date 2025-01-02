@@ -1,0 +1,3 @@
+/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build/CMakeFiles/demo.dir
+/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build/CMakeFiles/edit_cache.dir
+/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build/CMakeFiles/rebuild_cache.dir
