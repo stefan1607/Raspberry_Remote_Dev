@@ -1,6 +1,6 @@
 /*
 *   Author: Stefan Soyka
-*   Date: 15/10/2023
+*   Date: 04/01/2025
 *   Title: I2C test program
 *
 *   Description:
@@ -21,20 +21,21 @@
 #include <math.h>
 #include <unistd.h>
 
+#include <wiringPi.h>
+#include <wiringPiI2C.h>
+
+#include <lcd.h>
+
 
 //  Libraries to use the I/O componenten from my Raspberry 4 with bulleye 32bit
 //  Due to Gordon not further support the WiringPI library I use a github clone in version 2.70.
 //  Further details see: https://github.com/WiringPi/WiringPi and the README.MD in this directory.
     
 
-//  Standard libraries for C
-#include "/usr/local/include/wiringPi.h"
-#include "/usr/local/include/wiringPiI2C.h"
-#include "/usr/local/include/lcd.h"
-
 //  Header file the BMP180 C-File in this directory. It is a modifed copy from the WiringPi orginal
 //  source. Therefore it is not used as a library
 #include "../inc/bmp180.h"
+
 
 //  The following libraries are only used to get familiar with the library concept of BAZEL
 #include "../inc/test_lib_1.h"
@@ -67,6 +68,8 @@ int main( void )
 
     double fCelsiusTemp, fAirPressure ;            // var to store temperature and airpressure
 
+    wiringPiSetup () ;
+
     // setup the GPIO control WiringPi lib
     return_code = wiringPiSetupGpio() ;
     delay(1000) ;
@@ -82,11 +85,13 @@ int main( void )
     {
         return_code = bmp180ReadTempPress (fd_bmp180, & fCelsiusTemp, &fAirPressure);   // ACHTUNG: Hier ist fd mit dem Wert 4 angenommen
 
+        /*
         lcdClear(lcd);
         lcdPosition(lcd, 0, 0) ;                  // row 0, col 0
         lcdPrintf(lcd, "T = %.2f C", fCelsiusTemp) ;
         lcdPosition(lcd, 0, 1) ;                  //row 1, col 0
         lcdPrintf(lcd, "H = %.2f Pa", fAirPressure) ;
+        */
         delay(1000) ;                             // 1s delay
     }
 
