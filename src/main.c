@@ -76,7 +76,7 @@ int main( void )
     fd_bmp180 = bmp180Setup (I2C_ADDRESS) ;
     
     // initialise the LCD
-    lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0) ;
+//    lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0) ;
 
     // welcome message
     printf("BMP180 Test Program ...\n") ;

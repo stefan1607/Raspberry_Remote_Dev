@@ -6,7 +6,7 @@
     Date: 07/08/2023
 */
 
-#include "lib/test_lib_1.h"
+#include "../inc/test_lib_1.h"
 
 int add2integers (int valueA, int valueB)
 {
