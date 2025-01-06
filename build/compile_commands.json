@@ -11,6 +11,11 @@
 },
 {
   "directory": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build",
+  "command": "gcc -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -g   -I/usr/include -L/usr/lib -lwiringPi -lwiringPiDev -std=gnu11 -o CMakeFiles/demo.dir/src/lcd.c.o -c /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/lcd.c",
+  "file": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/lcd.c"
+},
+{
+  "directory": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/build",
   "command": "gcc -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -g   -I/usr/include -L/usr/lib -lwiringPi -lwiringPiDev -std=gnu11 -o CMakeFiles/demo.dir/src/test_lib_1.c.o -c /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/test_lib_1.c",
   "file": "/home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/test_lib_1.c"
 },

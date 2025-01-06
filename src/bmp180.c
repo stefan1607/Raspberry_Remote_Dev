@@ -98,6 +98,7 @@ int32_t bmp180ReadTempPress (int32_t fd, double * fTemp, double * fPress)
   tu = (data [0] * 256.0) + data [1] ;
 
   a = c5 * (tu - c6) ;
+  
   * fTemp = a + (mc / (a + md)) ;
  
 
@@ -120,13 +121,15 @@ int32_t bmp180ReadTempPress (int32_t fd, double * fTemp, double * fPress)
 // And calculate...
   pu = ((double)data [0] * 256.0) + (double)data [1] + ((double)data [2] / 256.0) ;
   s = * fTemp - 25.0 ;
-//  x = (x2 * pow (s, 2.0)) + (x1 * s) + x0 ;
-//  y = (yy2 * pow (s, 2.0)) + (yy1 * s) + yy0 ;
-//  z = (pu - x) / y ;
-//  * fPress = (p2 * pow (z, 2.0)) + (p1 * z) + p0 ;
-  // cPress = (int)rint (((100.0 * fPress) + 0.5) / 10.0) ;
-
-
+  
+  x = (x2 * pow (s, 2.0)) + (x1 * s) + x0 ;
+  y = (yy2 * pow (s, 2.0)) + (yy1 * s) + yy0 ;
+  z = (pu - x) / y ;
+  
+  * fPress = (p2 * pow (z, 2.0)) + (p1 * z) + p0 ;
+  
+  cPress = (int)rint (((100.0 * 50.0) + 0.5) / 10.0) ;
+  
 #ifdef	DEBUG
   printf ("fPress: %f\n", * fPress) ;
 #endif
@@ -167,8 +170,7 @@ static int myAnalogRead (struct wiringPiNodeStruct *node, int32_t pin)
   else if (chan == 1)	                            // Pressure
     return cPress ;
   else if (chan == 2)	                            // Pressure in mB
-      return cPress ;
-//    return cPress / pow (1 - ((double)altitude / 44330.0), 5.255) ;
+    return cPress / pow (1 - ((double)altitude / 44330.0), 5.255) ;
   else
     return -9999 ;
 }
@@ -214,6 +216,7 @@ int32_t bmp180Setup (const int pinBase)
 
 
 // Calculate coefficients
+
   c3 = 160.0 * pow (2.0, -15.0) * AC3 ;
   c4 = pow (10.0, -3.0) * pow(2.0,-15.0) * AC4 ;
   b1 = pow (160.0, 2.0) * pow(2.0,-30.0) * VB1 ;

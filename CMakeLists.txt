@@ -30,9 +30,11 @@ add_definitions(-I/usr/include -L/usr/lib -lwiringPi -lwiringPiDev)
 add_executable( ${APP}
         src/main.c
         src/bmp180.c
+        src/lcd.c
         src/test_lib_1.c
         src/test_lib_2.c )
 
-# Link against wiringPi
-find_library( wiringPi_LIB wiringPi wiringPiDev )
-target_link_libraries( ${APP} ${wiringPi_LIB} ${wiringPiDev_LIB})
+# Link against wiringPi and math lib
+# be careful The "m" at the end of the target_link_libraries line link the math library
+find_library( wiringPi_LIB wiringPiDev_LIB)
+target_link_libraries( ${APP} ${wiringPi_LIB} ${wiringPiDev_LIB} m)

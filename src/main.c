@@ -76,7 +76,7 @@ int main( void )
     fd_bmp180 = bmp180Setup (I2C_ADDRESS) ;
     
     // initialise the LCD
-//    lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0) ;
+    lcd = lcdInit(2, 16, 4, RS, E, D4, D5, D6, D7, 0, 0, 0, 0) ;
 
     // welcome message
     printf("BMP180 Test Program ...\n") ;
@@ -85,13 +85,12 @@ int main( void )
     {
         return_code = bmp180ReadTempPress (fd_bmp180, & fCelsiusTemp, &fAirPressure);   // ACHTUNG: Hier ist fd mit dem Wert 4 angenommen
 
-        /*
         lcdClear(lcd);
         lcdPosition(lcd, 0, 0) ;                  // row 0, col 0
         lcdPrintf(lcd, "T = %.2f C", fCelsiusTemp) ;
         lcdPosition(lcd, 0, 1) ;                  //row 1, col 0
         lcdPrintf(lcd, "H = %.2f Pa", fAirPressure) ;
-        */
+
         delay(1000) ;                             // 1s delay
     }
 

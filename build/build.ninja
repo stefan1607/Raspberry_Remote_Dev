@@ -63,6 +63,13 @@ build CMakeFiles/demo.dir/src/bmp180.c.o: C_COMPILER__demo_Debug /home/pi/sts_io
   OBJECT_DIR = CMakeFiles/demo.dir
   OBJECT_FILE_DIR = CMakeFiles/demo.dir/src
 
+build CMakeFiles/demo.dir/src/lcd.c.o: C_COMPILER__demo_Debug /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/lcd.c || cmake_object_order_depends_target_demo
+  DEP_FILE = CMakeFiles/demo.dir/src/lcd.c.o.d
+  FLAGS = -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -g   -I/usr/include -L/usr/lib -lwiringPi -lwiringPiDev -std=gnu11
+  INCLUDES = -I/home/pi/sts_iot_dev/Raspberry_Remote_Dev/inc
+  OBJECT_DIR = CMakeFiles/demo.dir
+  OBJECT_FILE_DIR = CMakeFiles/demo.dir/src
+
 build CMakeFiles/demo.dir/src/test_lib_1.c.o: C_COMPILER__demo_Debug /home/pi/sts_iot_dev/Raspberry_Remote_Dev/src/test_lib_1.c || cmake_object_order_depends_target_demo
   DEP_FILE = CMakeFiles/demo.dir/src/test_lib_1.c.o.d
   FLAGS = -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -g   -I/usr/include -L/usr/lib -lwiringPi -lwiringPiDev -std=gnu11
@@ -85,9 +92,9 @@ build CMakeFiles/demo.dir/src/test_lib_2.c.o: C_COMPILER__demo_Debug /home/pi/st
 #############################################
 # Link the executable /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo
 
-build /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo: C_EXECUTABLE_LINKER__demo_Debug CMakeFiles/demo.dir/src/main.c.o CMakeFiles/demo.dir/src/bmp180.c.o CMakeFiles/demo.dir/src/test_lib_1.c.o CMakeFiles/demo.dir/src/test_lib_2.c.o | /usr/local/lib/libwiringPi.so
+build /home/pi/sts_iot_dev/Raspberry_Remote_Dev/demo: C_EXECUTABLE_LINKER__demo_Debug CMakeFiles/demo.dir/src/main.c.o CMakeFiles/demo.dir/src/bmp180.c.o CMakeFiles/demo.dir/src/lcd.c.o CMakeFiles/demo.dir/src/test_lib_1.c.o CMakeFiles/demo.dir/src/test_lib_2.c.o | /usr/local/lib/libwiringPi.so
   FLAGS = -Wall -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable -g
-  LINK_LIBRARIES = -Wl,-rpath,/home/pi/sts_iot_dev/Raspberry_Remote_Dev/lib:/usr/local/lib  /usr/local/lib/libwiringPi.so
+  LINK_LIBRARIES = -Wl,-rpath,/home/pi/sts_iot_dev/Raspberry_Remote_Dev/lib:/usr/local/lib  /usr/local/lib/libwiringPi.so  -lm
   LINK_PATH = -L/home/pi/sts_iot_dev/Raspberry_Remote_Dev/lib   -L/usr/local/lib
   OBJECT_DIR = CMakeFiles/demo.dir
   POST_BUILD = :
